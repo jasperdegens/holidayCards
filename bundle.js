@@ -19715,6 +19715,12 @@
 
 	  componentDidMount: function () {
 	    setInterval(this.changeSlide, 9000); // should remove if unmount, but will do that later
+	    // preload images
+	    for (var i = 1; i < this.state.numSlides; i++) {
+	      var r = new XMLHttpRequest();
+	      r.open("GET", this.props.slides[i].image, true);
+	      r.send();
+	    }
 	  },
 
 	  render: function () {
