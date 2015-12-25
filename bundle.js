@@ -19676,11 +19676,8 @@
 	      },
 	      React.createElement(Letter, {
 	        className: 'card-inside',
-	        isLetter: true,
-	        salutation: letter.salutation,
-	        body: letter.body,
-	        signature: letter.signature }),
-	      React.createElement(CardCover, { className: 'card-outside', images: cardDetails.images })
+	        letter: letter }),
+	      React.createElement(CardCover, { className: 'card-outside', slides: cardDetails.slides })
 	    );
 	  }
 	});
@@ -19692,7 +19689,7 @@
 	    return React.createElement(
 	      'section',
 	      { className: classnames(this.props.className, 'card-panel') },
-	      React.createElement(SlideShow, { className: 'cover-front', images: this.props.images }),
+	      React.createElement(SlideShow, { className: 'cover-front', slides: this.props.slides }),
 	      React.createElement('div', { className: 'cover-back' })
 	    );
 	  }
@@ -19702,13 +19699,13 @@
 	  displayName: 'SlideShow',
 
 	  propTypes: {
-	    images: React.PropTypes.array
+	    slides: React.PropTypes.array
 	  },
 
 	  getInitialState: function () {
 	    return {
 	      currSlide: 0,
-	      numSlides: this.props.images.length
+	      numSlides: this.props.slides.length
 	    };
 	  },
 
@@ -19721,8 +19718,8 @@
 	  },
 
 	  render: function () {
-	    var slide = this.props.images[this.state.currSlide];
-	    var style = { background: "url('" + slide + "')",
+	    var slide = this.props.slides[this.state.currSlide];
+	    var style = { background: "url('" + slide.image + "')",
 	      backgroundSize: 'cover !important',
 	      backgroundPosition: 'center' };
 	    return React.createElement(
@@ -19731,7 +19728,15 @@
 	      React.createElement(
 	        ReactCSSTransitionGroup,
 	        { transitionName: 'slide-animation', transitionEnterTimeout: 3000, transitionLeaveTimeout: 3000 },
-	        React.createElement('div', { key: slide, className: 'slide', style: style })
+	        React.createElement(
+	          'div',
+	          { key: this.state.currSlide, className: 'slide', style: style },
+	          React.createElement(
+	            'p',
+	            { className: 'description' },
+	            slide.description
+	          )
+	        )
 	      )
 	    );
 	  }
@@ -19742,7 +19747,8 @@
 	  displayName: 'Letter',
 
 	  render: function () {
-	    var bodyParagraphs = this.props.body.split('\n');
+	    var bodyParagraphs = this.props.letter.body.split('\n');
+	    var signatureLines = this.props.letter.signature.split('\n');
 	    return React.createElement(
 	      'section',
 	      { className: classnames(this.props.className, "card-panel") },
@@ -19752,7 +19758,7 @@
 	        React.createElement(
 	          'h1',
 	          { className: 'salutation' },
-	          this.props.salutation
+	          this.props.letter.salutation
 	        ),
 	        bodyParagraphs.map(function (para) {
 	          return React.createElement(
@@ -19761,16 +19767,13 @@
 	            para
 	          );
 	        }),
-	        React.createElement(
-	          'p',
-	          { className: 'signature' },
-	          'Love,'
-	        ),
-	        React.createElement(
-	          'p',
-	          { className: 'signature' },
-	          'Jasper'
-	        )
+	        signatureLines.map(function (sig) {
+	          return React.createElement(
+	            'p',
+	            { className: 'signature' },
+	            sig
+	          );
+	        })
 	      )
 	    );
 	  }
@@ -20632,7 +20635,28 @@
 
 	module.exports = {
 	  parents: {
-	    images: ['./images/dad.jpg', './images/santa.jpg'],
+	    slides: [{
+	      image: './images/ocean_stylised.png',
+	      description: 'Jasper and Trey -- Punta Delgada, Portugal'
+	    }, {
+	      image: './images/market.png',
+	      description: 'Street Market -- Hong Kong'
+	    }, {
+	      image: './images/rox.png',
+	      description: 'Rox and Rodger -- Naples'
+	    }, {
+	      image: './images/cricket.png',
+	      description: 'Fighting Cricket -- Hong Kong'
+	    }, {
+	      image: './images/walk.png',
+	      description: 'Sebastian and Tuti on Walk -- Reinbeck'
+	    }, {
+	      image: './images/dumplings.png',
+	      description: 'Soup Dumpling Chef -- Shanghai'
+	    }, {
+	      image: './images/fish_market.png',
+	      description: 'Fish market -- Shanghai'
+	    }],
 	    letter: {
 	      salutation: 'Mom and Dad,',
 	      body: "This is my first attempt at a holiday card. One day I would like to try my hand at the linoleum designs, but for now I will stick to what I know best: a digital interpretation.\nTomorrow I go for a Christmas Eve hotpot party at my friend Trung's place. I am bringing along Ling, the Vietnamese girl I have been seeing, and look forward to a night of food, drink, and general merriness. Christmas has a minimal impact on Hanoi, and it was funny to see this was not the case in Hong Kong or Shanghai. In both places, the entire skyline was filled with 'Merry Christmas' LED displays and the barrage of last minute Christmas sales. Even for the real holiday season in Vietnam, which happens in the beginning of Feb, the emphasis is not on presents, but rather most families visit their elder relatives that still live in villages outside the cities. That is Ling's plan, and I am amused at how unexcited she is to see her relatives. That is something I will greatly miss this year.\nI have been thinking quite a lot about the distillery, and it is difficult to articulate my thoughts but I am going to do my best. It is a tremendous amount of work for you both, and I have wanted to help, but frankly do not know how to be effectively involved. Amidst all of the issues with the fire marshals, the local bureaucracy, Sam, and pressure for sales, the distillery seems destined for a critical point in this next year. I haven't talked to Rox about this, but I am sure she feels the same as I do: that I do not want you two to face this all alone, and want to help out. I know we spoke a while back and you guys mentioned that you were thinking of investing in some property for the distillery in order to move locations. While this may be a good move for the business in the long run, I am just wondering what exactly you both envision the long run to be. My vision for your lives in the coming years contains a freedom to visit Grandma Tuti, Moo and Jerry, Rox, the cape, other friends, explore new hobbies (sailing, a return to photography?), and some much-earned relaxation. Not sure the role of the distillery.  These are not organised thoughts, but wanted to let you know at least where my mind's at.\nI am missing you both, and sending holiday love.",
@@ -20640,27 +20664,83 @@
 	    }
 	  },
 	  rox: {
-	    images: ['./images/santa.jpg'],
+	    slides: [{
+	      image: './images/rox.png',
+	      description: 'Rox and Rodger -- Naples'
+	    }, {
+	      image: './images/ocean_stylised.png',
+	      description: 'Jasper and Trey -- Punta Delgada, Portugal'
+	    }, {
+	      image: './images/fish_market.png',
+	      description: 'Fish market -- Shanghai'
+	    }, {
+	      image: './images/cricket.png',
+	      description: 'Fighting Cricket -- Hong Kong'
+	    }],
 	    letter: {
 	      salutation: 'Rox,',
-	      body: "This is my first attempt at a holiday card. One day I would like to try my hand at the linoleum designs, but for now I will stick to what I know best: a digital interpretation.\nTomorrow I go for a Christmas Eve hotpot party at my friend Trung's place. I am bringing along Ling, the Vietnamese girl I have been seeing, and look forward to a night of food, drink, and general merriness. Christmas has a minimal impact on Hanoi, and it was funny to see this was not the case in Hong Kong or Shanghai. In both places, the entire skyline was filled with 'Merry Christmas' LED displays and the barrage of last minute Christmas sales. Even for the real holiday season in Vietnam, which happens in the beginning of Feb, the emphasis is not on presents, but rather most families visit their elder relatives that still live in villages outside the cities. That is Ling's plan, and I am amused at how unexcited she is to see her relatives. That is something I will greatly miss this year.\nI have been thinking quite a lot about the distillery, and it is difficult to articulate my thoughts but I am going to do my best. It is a tremendous amount of work for you both, and I have wanted to help, but frankly do not know how to be effectively involved. Amidst all of the issues with the fire marshals, the local bureaucracy, Sam, and pressure for sales, the distillery seems destined for a critical point in this next year. I haven't talked to Rox about this, but I am sure she feels the same as I do: that I do not want you two to face this all alone, and want to help out. I know we spoke a while back and you guys mentioned that you were thinking of investing in some property for the distillery in order to move locations. While this may be a good move for the business in the long run, I am just wondering what exactly you both envision the long run to be. My vision for your lives in the coming years contains a freedom to visit Grandma Tuti, Moo and Jerry, Rox, the cape, other friends, explore new hobbies (sailing, a return to photography?), and some much-earned relaxation. Not sure the role of the distillery.  These are not organised thoughts, but wanted to let you know at least where my mind's at.\nI am missing you both, and sending holiday love.",
-	      signature: "I am missing you both, and sending love.\nJasper"
+	      body: "Merry Christmas! Happy that you are with Grandma Tuti in Hamburg. Eager to hear more of how your time with Rodger was and to hear what you have been up to in Germany.\nNow that the LSATs are over (hopefully), are you going to take up a new hobby or is it straight to applications? The notion of you moving cities in the spring is quite exciting! I still wonder, as you may as well, where you will end up, but gut says if you move from the west coast it will be to NY. Or maybe you have been inspired by international law and are thinking of reviving your plan to study in Europe? Probably wouldn't play well with US job prospects, but still could be interesting.\nI still have no real clue what I want to do for work in Hanoi. The networking phase is arduous and boring, and I'm hoping to evolve to some more concrete prospects soon. Yet somehow, even without work, the days feel relatively busy; between coffee shop hangouts, lunches, side projects, and books, I keep myself occupied. Eerily feels like an early retirement, and while it is nice, I'm ready to have a larger focus.",
+	      signature: "Keep warm, and sending my love,\nJasper"
 	    }
 	  },
 	  mooAndJerry: {
-	    images: ['./images/dad.jpg'],
-	    letter: {
+	    slides: [{
+	      image: './images/market.png',
+	      description: 'Street Market -- Hong Kong'
+	    }, {
+	      image: './images/rox.png',
+	      description: 'Rox and Rodger -- Naples'
+	    }, {
+	      image: './images/ocean_stylised.png',
+	      description: 'Jasper and Trey -- Punta Delgada, Portugal'
+	    }, {
+	      image: './images/walk.png',
+	      description: 'Sebastian and Tuti on Walk -- Reinbeck'
+	    }, {
+	      image: './images/dumplings.png',
+	      description: 'Soup Dumpling Chef -- Shanghai'
+	    }, {
+	      image: './images/fish_market.png',
+	      description: 'Fish market -- Shanghai'
+	    }], letter: {
 	      salutation: 'Moo and Jerry,',
-	      body: "This is my first attempt at a holiday card. One day I would like to try my hand at the linoleum designs, but for now I will stick to what I know best: a digital interpretation.\nTomorrow I go for a Christmas Eve hotpot party at my friend Trung's place. I am bringing along Ling, the Vietnamese girl I have been seeing, and look forward to a night of food, drink, and general merriness. Christmas has a minimal impact on Hanoi, and it was funny to see this was not the case in Hong Kong or Shanghai. In both places, the entire skyline was filled with 'Merry Christmas' LED displays and the barrage of last minute Christmas sales. Even for the real holiday season in Vietnam, which happens in the beginning of Feb, the emphasis is not on presents, but rather most families visit their elder relatives that still live in villages outside the cities. That is Ling's plan, and I am amused at how unexcited she is to see her relatives. That is something I will greatly miss this year.\nI have been thinking quite a lot about the distillery, and it is difficult to articulate my thoughts but I am going to do my best. It is a tremendous amount of work for you both, and I have wanted to help, but frankly do not know how to be effectively involved. Amidst all of the issues with the fire marshals, the local bureaucracy, Sam, and pressure for sales, the distillery seems destined for a critical point in this next year. I haven't talked to Rox about this, but I am sure she feels the same as I do: that I do not want you two to face this all alone, and want to help out. I know we spoke a while back and you guys mentioned that you were thinking of investing in some property for the distillery in order to move locations. While this may be a good move for the business in the long run, I am just wondering what exactly you both envision the long run to be. My vision for your lives in the coming years contains a freedom to visit Grandma Tuti, Moo and Jerry, Rox, the cape, other friends, explore new hobbies (sailing, a return to photography?), and some much-earned relaxation. Not sure the role of the distillery.  These are not organised thoughts, but wanted to let you know at least where my mind's at.\nI am missing you both, and sending holiday love.",
-	      signature: "I am missing you both, and sending love.\nJasper"
+	      body: "The holiday season here does not start until Feb, when Tet, the eastern New Year, approaches. A few shops around town do have sparse Christmas decorations, but there was never any sign Hanukah happened. In fact, the attitude towards Jews here is very strange; I have only had two encounters, but both left me to conclude that a) there are hardly any Jews in Vietnam, and b) many people (probably most) have never even met a Jew.\nThe first encounter was with a Vietnamese girl I was helping study for an English job interview. We sat at this café in the old quarter of town on a balcony that overlooked the gorgeous Catholic church that the French had build during their occupation. This prompted a conversation about religion, and she described how most Vietnamese, if religious at all, are Buddhist (she herself was not). I then told her that part of my family heritage was Catholic, and the other Jewish. At Jewish her eyes widened just enough for me to notice, and she then chirped, 'Then you must be smart.' I got a chuckle out of that one, but at the same time there seemed to be more she was thinking under the surface.\nThe other time was much more bizarre. In speaking to a mid-30s Vietnamese man at a house party, he began to go on about how he could not stand the Chinese (a sentiment shared by many here). He continued to say he wished he could build a country that could keep out all Chinese. Then, after a pause, he added, “And the Jews.” There is a complicated and brutal history between the Chinese and the Vietnamese, but this Jew remark caught me completely off-guard. I asked why he bucketed in the Jews, and he just shrugged and said, “Seemed like it fit.” I had no idea how to respond to that.\nAnyways, I’m celebrating this holiday season with a hot pot party, a potluck, and other random little events that will pop up here and there.",
+	      signature: "Sending my love,\nJasper"
 	    }
 	  },
 	  tuti: {
-	    images: ['./images/snow.jpg', './images/martin.jpg', './images/walk.jpg'],
+	    slides: [{
+	      image: './images/martin.png',
+	      description: 'Martin and Jasper -- Hamfelde'
+	    }, {
+	      image: './images/market.png',
+	      description: 'Street Market -- Hong Kong'
+	    }, {
+	      image: './images/owl.png',
+	      description: 'Wood Owl -- Wolforf'
+	    }, {
+	      image: './images/dumplings.png',
+	      description: 'Soup Dumpling Chef -- Shanghai'
+	    }, {
+	      image: './images/santa.jpg',
+	      description: 'Jazzy Santa -- Shanghai'
+	    }, {
+	      image: './images/walk.png',
+	      description: 'Sebastian and Tuti on Walk -- Reinbeck'
+	    }],
 	    letter: {
 	      salutation: 'Grandma Tuti,',
-	      body: "This is my first attempt at a holiday card. One day I would like to try my hand at the linoleum designs, but for now I will stick to what I know best: a digital interpretation.\nTomorrow I go for a Christmas Eve hotpot party at my friend Trung's place. I am bringing along Ling, the Vietnamese girl I have been seeing, and look forward to a night of food, drink, and general merriness. Christmas has a minimal impact on Hanoi, and it was funny to see this was not the case in Hong Kong or Shanghai. In both places, the entire skyline was filled with 'Merry Christmas' LED displays and the barrage of last minute Christmas sales. Even for the real holiday season in Vietnam, which happens in the beginning of Feb, the emphasis is not on presents, but rather most families visit their elder relatives that still live in villages outside the cities. That is Ling's plan, and I am amused at how unexcited she is to see her relatives. That is something I will greatly miss this year.\nI have been thinking quite a lot about the distillery, and it is difficult to articulate my thoughts but I am going to do my best. It is a tremendous amount of work for you both, and I have wanted to help, but frankly do not know how to be effectively involved. Amidst all of the issues with the fire marshals, the local bureaucracy, Sam, and pressure for sales, the distillery seems destined for a critical point in this next year. I haven't talked to Rox about this, but I am sure she feels the same as I do: that I do not want you two to face this all alone, and want to help out. I know we spoke a while back and you guys mentioned that you were thinking of investing in some property for the distillery in order to move locations. While this may be a good move for the business in the long run, I am just wondering what exactly you both envision the long run to be. My vision for your lives in the coming years contains a freedom to visit Grandma Tuti, Moo and Jerry, Rox, the cape, other friends, explore new hobbies (sailing, a return to photography?), and some much-earned relaxation. Not sure the role of the distillery.  These are not organised thoughts, but wanted to let you know at least where my mind's at.\nI am missing you both, and sending holiday love.",
-	      signature: "I am missing you both, and sending love.\nJasper"
+	      body: "I am thinking of the day we planned to drive to Hamfelde and take the car into the garage, but instead spent the majority of the day mesmerized by the beautifully large snowflakes tumbling down. I hope another light dusting has happened since, so that the Christmas markets could be that much more magical.\nIn Hanoi I will be having my first non-Christmas Christmas. Primarily because the lack of family, but also the absence of perpetual holiday music, the displays of lights, and making more of a difference than it should is the climate: just feels odd surrounded by sticky, warm air rather than dry, chilly winds. But I do have some festivities planned, such as a Christmas hot pot feast and a potluck on they day itself. Maybe will develop some new holiday traditions for the coming years.\nNow that the holiday rush is over, I wrote mom and dad about some of the thoughts I have about the distillery and its future. Tried to express much of what we talked about, and am curious to hear more of their thoughts.\nVery excited for when I get to visit your new place.",
+
+	      signature: "Sending you my love,\nJasper"
+	    }
+	  },
+	  zara: {
+	    images: ['./images/santa.jpg'],
+	    letter: {
+	      salutation: 'Dearest Ling,',
+	      body: 'This egg coffee is delicious. Thank you for taking me to this place.',
+	      signature: 'fasdf'
 	    }
 	  }
 	};
@@ -20700,7 +20780,7 @@
 
 
 	// module
-	exports.push([module.id, "html, body, #wrapper{\n  height: 100%;\n  width: 100%;\n  margin: 0;\n}\n\nbody{\n  background-color: #1d1d1d;\n  -webkit-perspective: 1000px;\n          perspective: 1000px;\n}\n\n#wrapper{\n  display: -webkit-flex;\n  display: -ms-flexbox;\n  display: flex;\n  -webkit-justify-content: center;\n      -ms-flex-pack: center;\n          justify-content: center;\n  -webkit-align-items: center;\n      -ms-flex-align: center;\n          align-items: center;\n}\n\n.card{\n  width: 600px;\n  height: 400px;\n  border: 1px solid #777;\n  transition: all 1s ease-in-out;\n  position: relative;\n  box-shadow: -8px 8px 8px #333;\n}\n\n.card-panel{\n  position: absolute;\n  width: 100%;\n  height: 100%;\n  transition: all 1s ease-in-out;\n  background-color: #e1e1e1;\n}\n\n.card-inside{\n  position: absolute;\n  z-index: 1;\n  overflow: scroll;\n  border-top: 4px solid #777;\n}\n\n.card-outside{\n  z-index: 10;\n  -webkit-transform: skewX(3deg) rotateX(1deg);\n          transform: skewX(3deg) rotateX(1deg);\n  -webkit-transform-origin: 0% 0%;\n          transform-origin: 0% 0%;\n  -webkit-transform-style: preserve-3d;\n          transform-style: preserve-3d;\n  box-shadow: -2px 2px 2px rgba(23, 23, 23, 0.3);\n}\n\n.cover-front, .cover-back{\n  position: absolute;\n  width: 100%;\n  height: 100%;\n}\n\n.cover-front{\n  -webkit-backface-visibility: hidden;\n          backface-visibility: hidden;\n  z-index: 15;\n  background-color: #1d1d1d;\n}\n\n.slide{\n  position: absolute;\n  width: 100%;\n  height: 100%;\n  transition: all 3s ease;\n}\n\n.slide-animation-enter {\n  opacity: 0.01;\n}\n\n.slide-animation-enter.slide-animation-enter-active {\n  opacity: 1;\n}\n\n.slide-animation-leave {\n  opacity: 1;\n}\n\n.slide-animation-leave.slide-animation-leave-active {\n  opacity: 0.01;\n}\n\n.cover-back{\n /* position: absolute;\n  width: 100%;\n  height: 100%;\n  backface-visibility: hidden;\n  transform: rotateX(180deg);\n  background-color: rgba(255, 255, 255, 1);*/\n  /*transition: all .5s ease-in-out;*/\n}\n\n.card.open .card-outside{\n  -webkit-transform: skewX(3deg) rotateX(240deg);\n          transform: skewX(3deg) rotateX(240deg);\n}\n\n.card.open .card-outside::after{\n  -webkit-transform: rotateX(0deg);\n          transform: rotateX(0deg);\n}\n\n\n.card:hover #card-outside{\n  /*transform: skewX(1deg) rotateX(180deg);*/\n  /*animation-name: card-bounce;\n  animation-duration: 1s;\n  animation-timing-function: ease;*/\n\n}\n\n@-webkit-keyframes card-bounce{\n  0%, 100% { -webkit-transform: skewX(3deg); transform: skewX(3deg);}\n  30% { -webkit-transform: skewX(2deg); transform: skewX(2deg);}\n  60% { -webkit-transform: skewX(1deg); transform: skewX(1deg);}\n  80% { -webkit-transform: skewX(2deg); transform: skewX(2deg);}\n}\n\n@keyframes card-bounce{\n  0%, 100% { -webkit-transform: skewX(3deg); transform: skewX(3deg);}\n  30% { -webkit-transform: skewX(2deg); transform: skewX(2deg);}\n  60% { -webkit-transform: skewX(1deg); transform: skewX(1deg);}\n  80% { -webkit-transform: skewX(2deg); transform: skewX(2deg);}\n}\n\n.card{\n  /*transition: all 1s ease-in-out;*/\n}\n\n.card:hover{\n  /*padding-top: 200px;*/\n}\n\n.letter{\n  padding: 24px 34px;\n}\n\n.salutation{\n  margin: 0;\n  font-size: 33px;\n  font-family: 'Playfair Display', sans-serif;\n  font-weight:900; \n  font-style:italic;\n}\n\n.letter-text{\n  font-style: italic;\n  font-size: 18px;\n  font-family: 'Cardo', sans-serif;\n  font-weight: 400;\n}\n\n", ""]);
+	exports.push([module.id, "html, body, #wrapper{\n  height: 100%;\n  width: 100%;\n  margin: 0;\n}\n\nbody{\n  background-color: #1d1d1d;\n  -webkit-perspective: 1000px;\n          perspective: 1000px;\n  font-family: 'Cardo', sans-serif;\n}\n\n#wrapper{\n  display: -webkit-flex;\n  display: -ms-flexbox;\n  display: flex;\n  -webkit-justify-content: center;\n      -ms-flex-pack: center;\n          justify-content: center;\n  -webkit-align-items: center;\n      -ms-flex-align: center;\n          align-items: center;\n}\n\n.card{\n  width: 600px;\n  height: 400px;\n  border: 1px solid #777;\n  transition: all 1s ease-in-out;\n  position: relative;\n  box-shadow: -8px 8px 8px #333;\n}\n\n.card::after{\n  content: \"Click to Open\";\n  width: 100%;\n  height: 100px;\n  color: #757373;\n  position: absolute;\n  bottom: -115px;\n  text-align: center;\n  font-size: 30px;\n}\n\n.card-panel{\n  position: absolute;\n  width: 100%;\n  height: 100%;\n  transition: all 1s ease-in-out;\n  background-color: #e1e1e1;\n}\n\n.card-inside{\n  position: absolute;\n  z-index: 1;\n  overflow: scroll;\n  border-top: 4px solid #777;\n}\n\n.card-outside{\n  z-index: 10;\n  -webkit-transform: skewX(3deg) rotateX(1deg);\n          transform: skewX(3deg) rotateX(1deg);\n  -webkit-transform-origin: 0% 0%;\n          transform-origin: 0% 0%;\n  -webkit-transform-style: preserve-3d;\n          transform-style: preserve-3d;\n  box-shadow: -2px 2px 2px rgba(23, 23, 23, 0.3);\n}\n\n.cover-front, .cover-back{\n  position: absolute;\n  width: 100%;\n  height: 100%;\n}\n\n.cover-front{\n  -webkit-backface-visibility: hidden;\n          backface-visibility: hidden;\n  z-index: 15;\n  background-color: #1d1d1d;\n}\n\n.slide{\n  position: absolute;\n  width: 100%;\n  height: 100%;\n  transition: all 3s ease;\n}\n\n.slide .description{\n  position: absolute;\n  font-size: 15px;\n  color: #eee;\n  bottom: 5px;\n  right: 5px;\n  margin: 0;\n}\n\n.slide-animation-enter {\n  opacity: 0.01;\n}\n\n.slide-animation-enter.slide-animation-enter-active {\n  opacity: 1;\n}\n\n.slide-animation-leave {\n  opacity: 1;\n}\n\n.slide-animation-leave.slide-animation-leave-active {\n  opacity: 0.01;\n}\n\n.card.open .card-outside{\n  -webkit-transform: skewX(3deg) rotateX(240deg);\n          transform: skewX(3deg) rotateX(240deg);\n}\n\n\n.card:not(.open):hover .card-outside{\n  -webkit-transform: skewX(3deg) rotateX(20deg);\n          transform: skewX(3deg) rotateX(20deg);\n}\n\n.letter{\n  padding: 24px 34px;\n}\n\n.salutation{\n  margin: 0;\n  font-size: 33px;\n  font-family: 'Playfair Display', sans-serif;\n  font-weight:900; \n  font-style:italic;\n}\n\n.signature{\n  margin: 0;\n}\n\n.letter-text{\n  font-style: italic;\n  font-size: 18px;\n  font-family: 'Cardo', sans-serif;\n  font-weight: 400;\n}\n\n", ""]);
 
 	// exports
 
