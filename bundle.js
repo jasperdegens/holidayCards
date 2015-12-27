@@ -19717,6 +19717,7 @@
 	    setInterval(this.changeSlide, 9000); // should remove if unmount, but will do that later
 	    // preload images
 	    for (var i = 1; i < this.state.numSlides; i++) {
+	      console.log(i);
 	      var r = new XMLHttpRequest();
 	      r.open("GET", this.props.slides[i].image, true);
 	      r.send();
@@ -20710,7 +20711,7 @@
 	      description: 'Fish market -- Shanghai'
 	    }], letter: {
 	      salutation: 'Moo and Jerry,',
-	      body: "The holiday season here does not start until Feb, when Tet, the eastern New Year, approaches. A few shops around town do have sparse Christmas decorations, but there was never any sign Hanukah happened. In fact, the attitude towards Jews here is very strange; I have only had two encounters, but both left me to conclude that a) there are hardly any Jews in Vietnam, and b) many people (probably most) have never even met a Jew.\nThe first encounter was with a Vietnamese girl I was helping study for an English job interview. We sat at this café in the old quarter of town on a balcony that overlooked the gorgeous Catholic church that the French had build during their occupation. This prompted a conversation about religion, and she described how most Vietnamese, if religious at all, are Buddhist (she herself was not). I then told her that part of my family heritage was Catholic, and the other Jewish. At Jewish her eyes widened just enough for me to notice, and she then chirped, 'Then you must be smart.' I got a chuckle out of that one, but at the same time there seemed to be more she was thinking under the surface.\nThe other time was much more bizarre. In speaking to a mid-30s Vietnamese man at a house party, he began to go on about how he could not stand the Chinese (a sentiment shared by many here). He continued to say he wished he could build a country that could keep out all Chinese. Then, after a pause, he added, “And the Jews.” There is a complicated and brutal history between the Chinese and the Vietnamese, but this Jew remark caught me completely off-guard. I asked why he bucketed in the Jews, and he just shrugged and said, “Seemed like it fit.” I had no idea how to respond to that.\nAnyways, I’m celebrating this holiday season with a hot pot party, a potluck, and other random little events that will pop up here and there.",
+	      body: "The holiday season here does not start until Feb, when Tet, the eastern New Year, approaches. A few shops around town do have sparse Christmas decorations, but there was never any sign Hanukah happened. In fact, the attitude towards Jews here is very strange; I have only had two encounters, but both left me to conclude that a) there are hardly any Jews in Vietnam, and b) many people (probably most) have never even met a Jew.\nThe first encounter was with a Vietnamese girl I was helping study for an English job interview. We sat at this café in the old quarter of town on a balcony that overlooked the gorgeous Catholic church that the French had build during their occupation. This prompted a conversation about religion, and she described how most Vietnamese, if religious at all, are Buddhist (she herself was not). I then told her that part of my family heritage was Catholic, and the other Jewish. At Jewish her eyes widened just enough for me to notice, and she then chirped, 'Then you must be smart.' I got a chuckle out of that one, but at the same time there seemed to be more she was thinking under the surface.\nThe other time was much more bizarre. In speaking to a mid-30s Vietnamese man at a house party, he began to go on about how he could not stand the Chinese (a sentiment shared by many here). He continued to say he wished he could build a country that could keep out all Chinese. Then, after a pause, he added, “And the Jews.” There is a complicated and brutal history between the Chinese and the Vietnamese, but this Jew remark caught me completely off-guard. I asked why he bucketed in the Jews, and he just shrugged and said, 'Seemed like it fit.' I had no idea how to respond to that.\nAnyways, I'm celebrating this holiday season with a hot pot party, a potluck, and other random little events that will pop up here and there.",
 	      signature: "Sending my love,\nJasper"
 	    }
 	  },
@@ -20742,11 +20743,32 @@
 	    }
 	  },
 	  zara: {
-	    images: ['./images/santa.jpg'],
+	    slides: [{
+	      image: './images/ocean_stylised.png',
+	      description: 'Jasper and Trey -- Punta Delgada, Portugal'
+	    }, {
+	      image: './images/market.png',
+	      description: 'Street Market -- Hong Kong'
+	    }, {
+	      image: './images/rox.png',
+	      description: 'My Sister and her Boyfriend -- Naples'
+	    }, {
+	      image: './images/cricket.png',
+	      description: 'Fighting Cricket -- Hong Kong'
+	    }, {
+	      image: './images/walk.png',
+	      description: 'Father and Grandma on Walk -- Reinbeck'
+	    }, {
+	      image: './images/dumplings.png',
+	      description: 'Soup Dumpling Chef -- Shanghai'
+	    }, {
+	      image: './images/fish_market.png',
+	      description: 'Fish market -- Shanghai'
+	    }],
 	    letter: {
-	      salutation: 'Dearest Ling,',
-	      body: 'This egg coffee is delicious. Thank you for taking me to this place.',
-	      signature: 'fasdf'
+	      salutation: 'Dear Zara,',
+	      body: "As I write this I am sitting in a cafe on a lake, shielded from the buzz of traffic that I view in the distance. Ive been in Hanoi just over a month, and am slowly figuring out how I fit in to this strange city. Things have progressed much different than expected: I navigate the city with my little motorbike (something I thought I would never ride), I have a strange combination of Vietnamese, South African, and French friends, and have eaten things that a few years ago I would have never tried (duck fetus was strange).\nIn London, as you recall, I never worked long hours and took it pretty easy. Well, now that I do not have any job whatsoever, life ambles on even more relaxed than before. I spend a few hours each day in one of the hundreds of coffee shops, working on projects, sending networking emails, or just thinking. Most of the expats here are faced with the same conundrum of what to do with all this free time. Frankly, living here feels like a break from reality.\nI love the occasional updates in the flat whatsapp group with Mas. Still sounds like the hilarious same problems keep happening! Mas and Kazi really need to get their shit together. But the flat decorations for Christmas looked beautiful! A Christmas tree and everything. Hoping that there were some nice meals and that everyone is getting along.\nAre you going to your sister''s house in Italy this winter? Any developments with your coffee shop? Any more news on university? What else is new?",
+	      signature: 'Wishing you the best, and miss you,\nJasper'
 	    }
 	  }
 	};
